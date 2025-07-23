@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - add-ci-build
   pull_request:
     branches:
       - main
@@ -27,13 +28,16 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: '3.9'
+
+      - name: Show Python version
+        run: python --version
 
       - name: Install dependencies
         run: |
@@ -49,3 +53,4 @@ jobs:
         run: nosetests
         env:
           DATABASE_URI: "postgresql://postgres:pgs3cr3t@postgres:5432/testdb"
+
